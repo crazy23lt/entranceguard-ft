@@ -16,7 +16,7 @@ http.interceptors.request.use(config => {
             url: '/login/index'
         });
     }
-    config.headers['Bearer'] = getToken();
+    config.header['token'] = `Bearer ${getToken()}`;
     return config;
 });
 // 请求之后拦截函数

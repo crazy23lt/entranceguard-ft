@@ -11,7 +11,8 @@
             class="form-control"
             type="number"
             placeholder="请输入手机号码"
-            v-model="phoneNumber"
+            v-model="formData.phoneNumber"
+            @blur="_handlerInputPhone"
           />
         </view>
         <view class="form-group">
@@ -20,8 +21,8 @@
             type="number"
             class="form-control"
             placeholder="请输入验证码"
-            v-model="authCode"
-            @input="_handlerInput"
+            v-model="formData.authCode"
+            @blur="_handlerInputCode"
           />
           <button class="form-codetext" v-if="time > 0">
             {{ time }}s后重新发送
@@ -31,7 +32,12 @@
           </button>
         </view>
         <view class="form-action">
-          <button form-type="submit" class="form-button" type="default">
+          <button
+            form-type="submit"
+            class="form-button"
+            :class="{ active: submitState }"
+            type="default"
+          >
             登录
           </button>
         </view>
@@ -41,7 +47,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import { isPhone } from "@/utils/checkForm";
 let timer;
 export default {
   onLoad: function() {},
@@ -49,16 +56,29 @@ export default {
     return {
       loginLogo: "../../static/assets/ct-logo.png",
       time: 0,
-      phoneNumber: "",
-      authCode: "",
+      formData: {
+        phoneNumber: "13636065890",
+        authCode: "123456",
+      },
     };
   },
   computed: {
     ...mapGetters(["barHeight"]),
+    submitState() {
+      let codeLen = this.formData.authCode.split("").length;
+      let phoneState = isPhone(this.formData.phoneNumber);
+      if (codeLen === 6 && phoneState) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     /*----- 提交表单 -----*/
-    formSubmit: function() {},
+    formSubmit: function() {
+      this.$store.dispatch("user/login", this.formData);
+    },
     /*----- 获取验证码 -----*/
     onGetCode: function() {
       this.time = 60;
@@ -73,7 +93,12 @@ export default {
       setTimeout(timedCount, 1000);
     },
     /*----- input框校验 -----*/
-    _handlerInput: function() {},
+    _handlerInputPhone: function({ target }) {
+      console.info(target.value);
+    },
+    _handlerInputCode: function({ target }) {
+      console.info(target.value);
+    },
     /*----- 请求服务端验证码 -----*/
     _handlerAuthCode: function() {},
   },
@@ -139,6 +164,11 @@ export default {
         color: #b1b1b1;
         background-color: #e8ecf1;
         border-radius: 40rpx;
+      }
+      .active {
+        // background-color: skyblue;
+        background: linear-gradient(70deg, #87cefa, #1e90ff);
+        color: white;
       }
     }
   }

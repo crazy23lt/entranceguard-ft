@@ -25,7 +25,16 @@
         </view>
 
         <view class="key-main" :class="{ keymainactive: menuFlag }">
-          <view class="default-addkey">
+          <scroll-view v-if="doorkeys" scroll-y="true">
+            <view
+              class="default-addkey"
+              v-for="(item, index) in doorkeys"
+              :key="index"
+            >
+              <image class="add-key" :src="openKeyPic"></image>
+            </view>
+          </scroll-view>
+          <view v-else class="default-addkey">
             <image class="add-key" :src="addKeyPic"></image>
           </view>
           <view
@@ -68,16 +77,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["token", "barHeight"]),
+    ...mapGetters(["token", "barHeight", "doorkeys"]),
   },
-  onLoad() {},
-
+  onLoad() {
+    if (this.token) {
+      this.getDoorKeys();
+    }
+  },
+  onReady() {
+    console.info(this.$store);
+  },
   methods: {
     tapMenu: function() {
       this.menuFlag = !this.menuFlag;
     },
     tapOptionsHandler: function(name) {
-      console.info(name);
       switch (name) {
         case "tip":
           this.$Router.push({
@@ -98,6 +112,9 @@ export default {
           });
           break;
       }
+    },
+    getDoorKeys: async function() {
+      this.$store.dispatch("app/getDoorKeys");
     },
   },
 };

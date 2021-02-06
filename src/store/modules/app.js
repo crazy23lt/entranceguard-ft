@@ -1,6 +1,6 @@
 import { doorKeys } from "@/api/keys";
 const state = {
-    doorkeys: [],
+    doorkeys: [1, 2],
     barHeight: 0
 };
 const mutations = {
@@ -15,7 +15,8 @@ const actions = {
     getDoorKeys({ commit, rootGetters }) {
         return new Promise((resolve, reject) => {
             doorKeys(rootGetters.token).then(res => {
-                const { lists } = res;
+                const { lists } = res.data;
+                console.info(lists)
                 commit('SET_DOORKEYS', lists);
                 resolve();
             }).catch(error => {
