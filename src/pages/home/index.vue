@@ -1,5 +1,5 @@
 <template>
-  <view class="content">
+  <view class="content" :style="{ width: safeArea.width + 'px' }">
     <image mode="aspectFill" class="bg-pic" :src="bgPic"></image>
     <view
       class="main"
@@ -25,13 +25,23 @@
         </view>
 
         <view class="key-main" :class="{ keymainactive: menuFlag }">
-          <scroll-view v-if="doorkeys" scroll-y="true">
+          <scroll-view
+            enable-flex="true"
+            v-if="doorKeys.length"
+            scroll-y="true"
+            class="scroll"
+            :scroll-top="18"
+            :scroll-anchoring="true"
+            :show-scrollbar="false"
+          >
             <view
-              class="default-addkey"
-              v-for="(item, index) in doorkeys"
+              class="list-keys"
+              v-for="(item, index) in doorKeys"
               :key="index"
             >
-              <image class="add-key" :src="openKeyPic"></image>
+              <image class="has-key" :src="item.online | doorPic"></image>
+              <text class="zone-name">{{ item.arae }}</text>
+              <text class="building-name">{{ item.unit }}-{{ item.name }}</text>
             </view>
           </scroll-view>
           <view v-else class="default-addkey">
@@ -77,16 +87,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["token", "barHeight", "doorkeys"]),
+    ...mapGetters(["token", "safeArea", "doorKeys"]),
+    barHeight: function() {
+      return this.safeArea && this.safeArea.top ? this.safeArea.top : 0;
+    },
   },
   onLoad() {
     if (this.token) {
       this.getDoorKeys();
     }
   },
-  onReady() {
-    console.info(this.$store);
-  },
+  onReady() {},
   methods: {
     tapMenu: function() {
       this.menuFlag = !this.menuFlag;
@@ -117,6 +128,17 @@ export default {
       this.$store.dispatch("app/getDoorKeys");
     },
   },
+  filters: {
+    doorPic: function(online) {
+      let keyOfflinePic = "../../static/assets/icons/btn-keyoffline.png";
+      let openKeyPic = "../../static/assets/icons/btn-openkey.png";
+      if (online) {
+        return openKeyPic;
+      } else {
+        return keyOfflinePic;
+      }
+    },
+  },
 };
 </script>
 
@@ -127,10 +149,12 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  height: 100%;
 }
 /* 背景层 */
 .bg-pic {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 /* 应用层 */
@@ -138,7 +162,7 @@ export default {
   position: absolute;
   bottom: 0;
   height: 800rpx;
-  width: 100vw;
+  width: 100%;
   transition: height 0.3s ease-out;
   box-sizing: border-box;
 }
@@ -195,26 +219,54 @@ export default {
 }
 
 .key-main {
-  height: 100%;
   width: inherit;
   background-color: white;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  height: calc(100% - 100rpx);
 }
 .keymainactive {
+  height: 100%;
   border-top-left-radius: 50rpx;
   border-top-right-radius: 50rpx;
 }
 
+.scroll {
+  width: 365rpx;
+  height: 100%;
+}
 .default-addkey {
+  width: 365rpx;
+  height: 365rpx;
+}
+.list-keys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.has-key {
   width: 365rpx;
   height: 365rpx;
 }
 .add-key {
   width: inherit;
   height: inherit;
+}
+.zone-name {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: rgba(150, 150, 150, 1);
+  text-align: center;
+}
+.building-name {
+  margin-top: 10rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  color: rgba(62, 69, 82, 1);
+  text-align: center;
 }
 
 .up-menu {

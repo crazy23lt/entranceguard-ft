@@ -3,16 +3,30 @@
 		{
 			"path": "pages/home/index"
 		},
+		// #ifdef APP-PLUS
 		{
-			"path": "pages/login/index"
+			"path": "pages/login/app/index",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom"
+			}
 		},
+		// #endif
+		// #ifdef H5
+		{
+			"path": "pages/login/wx/index"
+		},
+		// #endif
 		{
 			"path": "pages/control/index"
 		}
 	],
 	"globalStyle": {
 		"app-plus": {
-			"titleNView": false
+			"titleNView": false,
+			"bounce": "none",
+			"scrollIndicator": "none",
+			"popGesture": "none"
 		},
 		"h5": {},
 		"mp-weixin": {

@@ -11,7 +11,7 @@ const app = new Vue({
 })
 //v1.3.5起 H5端 你应该去除原有的app.$mount();使用路由自带的渲染方式
 // #ifdef H5
-RouterMount(app, router, '#app');
+RouterMount(app, '#app');
 // #endif
 
 // #ifndef H5

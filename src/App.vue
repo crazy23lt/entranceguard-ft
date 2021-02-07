@@ -3,7 +3,7 @@ export default {
   onLaunch: function() {
     console.log("App Launch");
     // #ifdef APP-PLUS
-    this.$store.dispatch("app/getBarHeight");
+    this.$store.dispatch("app/getSafeArea");
     // #endif
   },
   onShow: function() {
@@ -17,4 +17,7 @@ export default {
 
 <style>
 /*每个页面公共css */
+page {
+  height: 100%;
+}
 </style>

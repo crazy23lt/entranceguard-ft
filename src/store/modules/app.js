@@ -1,14 +1,14 @@
 import { doorKeys } from "@/api/keys";
 const state = {
-    doorkeys: [1, 2],
-    barHeight: 0
+    doorKeys: [],
+    safeArea: {}
 };
 const mutations = {
     SET_DOORKEYS: (state, keys) => {
         state.doorKeys = keys;
     },
-    SET_BARHEIGHT: (state, height) => {
-        state.barHeight = height;
+    SET_SAFEAREA: (state, safeArea) => {
+        state.safeArea = safeArea;
     }
 };
 const actions = {
@@ -16,7 +16,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             doorKeys(rootGetters.token).then(res => {
                 const { lists } = res.data;
-                console.info(lists)
                 commit('SET_DOORKEYS', lists);
                 resolve();
             }).catch(error => {
@@ -24,9 +23,10 @@ const actions = {
             })
         })
     },
-    getBarHeight({ commit }) {
-        const { statusBarHeight } = uni.getSystemInfoSync();
-        commit('SET_BARHEIGHT', statusBarHeight);
+    getSafeArea({ commit }) {
+        const { safeArea } = uni.getSystemInfoSync();
+        console.info(uni.getSystemInfoSync());
+        commit('SET_SAFEAREA', safeArea);
     }
 };
 export default {

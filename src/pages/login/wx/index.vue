@@ -47,25 +47,24 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import { isPhone } from "@/utils/checkForm";
 let timer;
 export default {
-  onLoad: function() {},
   data() {
     return {
-      loginLogo: "../../static/assets/ct-logo.png",
+      loginLogo: "../../../static/assets/ct-logo.png",
       time: 0,
       formData: {
         phoneNumber: "13636065890",
-        authCode: "123456",
+        authCode: "",
       },
     };
   },
   computed: {
-    ...mapGetters(["barHeight"]),
+    ...mapGetters(["safeArea"]),
     submitState() {
-      let codeLen = this.formData.authCode.split("").length;
+      let codeLen = (this.formData.authCode + "").split("").length;
       let phoneState = isPhone(this.formData.phoneNumber);
       if (codeLen === 6 && phoneState) {
         return true;
@@ -73,14 +72,25 @@ export default {
         return false;
       }
     },
+    barHeight: function() {
+      return this.safeArea && this.safeArea.top ? this.safeArea.top : 0;
+    },
   },
   methods: {
     /*----- 提交表单 -----*/
     formSubmit: function() {
-      this.$store.dispatch("user/login", this.formData);
+      this.$store
+        .dispatch("user/login", this.formData)
+        .then((res) => {
+          this.$Router.replace({ name: "home" });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     /*----- 获取验证码 -----*/
     onGetCode: function() {
+      if (!isPhone(this.formData.phoneNumber)) return;
       this.time = 60;
       let timedCount = () => {
         this.time -= 1;
@@ -91,6 +101,7 @@ export default {
         }
       };
       setTimeout(timedCount, 1000);
+      this._handlerAuthCode();
     },
     /*----- input框校验 -----*/
     _handlerInputPhone: function({ target }) {
@@ -100,7 +111,16 @@ export default {
       console.info(target.value);
     },
     /*----- 请求服务端验证码 -----*/
-    _handlerAuthCode: function() {},
+    _handlerAuthCode: function() {
+      this.$store
+        .dispatch("user/authCode", {
+          phone: this.formData.phoneNumber,
+        })
+        .then((res) => {
+          this.formData.authCode = res;
+        })
+        .catch((error) => console.error(error));
+    },
   },
   beforeDestroy() {
     clearTimeout(timer);
@@ -110,7 +130,7 @@ export default {
 <style lang="scss" scoped>
 .content {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
@@ -166,7 +186,6 @@ export default {
         border-radius: 40rpx;
       }
       .active {
-        // background-color: skyblue;
         background: linear-gradient(70deg, #87cefa, #1e90ff);
         color: white;
       }

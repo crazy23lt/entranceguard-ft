@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'uni-simple-router';
 import modules from './modules'
 import { getToken } from "@/utils/auth"
-const whiteList = ['/pages/home/index', "/pages/login/index"] // no redirect whitelist
+const whiteList = ["/pages/login/wx/index", "/pages/login/app/index", "/pages/home/index"]; // no redirect whitelist
 Vue.use(Router)
 const router = new Router({
     routes: [...modules]//路由表
@@ -15,7 +15,7 @@ router.beforeEach((to, from, next) => {
     } else {
         console.info(to.path)
         if (whiteList.indexOf(to.path) !== -1) {
-            next()
+            next();
         } else {
             next({ name: "login" })
         }

@@ -11,7 +11,7 @@ module.exports = {
         },
         proxy: {
             "/api": {
-                target: "http://192.168.1.230:3000",
+                target: "http://172.16.4.33:3000",
                 ws: true,        // 如果要代理 websockets，配置这个参数
                 secure: false,  // 如果是https接口，需要配置这个参数
                 changeOrigin: true, // 是否改变域名

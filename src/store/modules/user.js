@@ -1,4 +1,4 @@
-import { login, loginOut, getInfo } from "@/api/user";
+import { login, loginOut, getInfo, getCode } from "@/api/user";
 import { getToken, setToken, removeToken } from "@/utils/auth"
 const state = {
     token: getToken(),
@@ -54,6 +54,14 @@ const actions = {
             removeToken()
             resolve()
         })
+    },
+    authCode({ commit }, phone) {
+        return new Promise((resolve, reject) => {
+            getCode(phone).then(response => {
+                const { data } = response;
+                resolve(data.code);
+            }).catch(error => reject(error));
+        });
     }
 };
 export default {
