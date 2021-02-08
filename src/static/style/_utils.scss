@@ -1,0 +1,19 @@
+/*偏移模型*/
+@each $typeKey, $type in $spaceTypes {
+  @each $sizeKey, $size in $spaceSizes {
+    @each $directionKey, $direction in $spaceDirections {
+      .#{$typeKey}#{$directionKey}#{$sizeKey} {
+        @include offset($type, $direction, $size);
+      }
+    }
+    .#{$typeKey}x#{$sizeKey} {
+      @include offset($type, x, $size);
+    }
+    .#{$typeKey}y#{$sizeKey} {
+      @include offset($type, y, $size);
+    }
+    .#{$typeKey}a#{$sizeKey} {
+      @include offset($type, a, $size);
+    }
+  }
+}

@@ -3,6 +3,8 @@ import App from './App'
 import store from './store'
 import router from './router/index'
 import { RouterMount } from 'uni-simple-router'
+import routerLink from '../node_modules/uni-simple-router/component/router-link.vue'
+Vue.component('router-link', routerLink)
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

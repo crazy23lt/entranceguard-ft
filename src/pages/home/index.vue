@@ -92,12 +92,11 @@ export default {
       return this.safeArea && this.safeArea.top ? this.safeArea.top : 0;
     },
   },
-  onLoad() {
+  created() {
     if (this.token) {
       this.getDoorKeys();
     }
   },
-  onReady() {},
   methods: {
     tapMenu: function() {
       this.menuFlag = !this.menuFlag;
@@ -105,22 +104,13 @@ export default {
     tapOptionsHandler: function(name) {
       switch (name) {
         case "tip":
-          this.$Router.push({
-            path: "/pages/control/index",
-            query: {},
-          });
+          this.$Router.push({ name: "control" });
           break;
         case "service":
-          this.$Router.push({
-            path: "/pages/control/index",
-            query: {},
-          });
+          this.$Router.push({ name: "control" });
           break;
         case "my":
-          this.$Router.push({
-            path: "/pages/control/index",
-            query: {},
-          });
+          this.$Router.push({ name: "control" });
           break;
       }
     },

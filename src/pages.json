@@ -3,6 +3,24 @@
 		{
 			"path": "pages/home/index"
 		},
+		{
+			"path": "pages/apply/index"
+		},
+		{
+			"path": "pages/helper/index"
+		},
+		{
+			"path": "pages/house/index"
+		},
+		{
+			"path": "pages/registered/index"
+		},
+		{
+			"path": "pages/population/index"
+		},
+		{
+			"path": "pages/setting/index"
+		},
 		// #ifdef APP-PLUS
 		{
 			"path": "pages/login/app/index",

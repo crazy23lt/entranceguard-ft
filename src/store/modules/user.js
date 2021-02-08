@@ -2,7 +2,9 @@ import { login, loginOut, getInfo, getCode } from "@/api/user";
 import { getToken, setToken, removeToken } from "@/utils/auth"
 const state = {
     token: getToken(),
-    name: ""
+    name: "",
+    phone: "",
+    auth: false,
 };
 const mutations = {
     SET_TOKEN: (state, token) => {
@@ -10,6 +12,12 @@ const mutations = {
     },
     SET_NAME: (state, name) => {
         state.name = name
+    },
+    SET_PHONE: (state, phone) => {
+        state.phone = phone
+    },
+    SET_AUTH: (state, auth) => {
+        state.auth = auth
     }
 };
 const actions = {
@@ -29,9 +37,11 @@ const actions = {
     getInfo({ commit, state }) {
         return new Promise((resolve, reject) => {
             getInfo(state.token).then(res => {
-                const { name } = res;
-                commit('SET_NAME', name)
-                resolve(data)
+                const { name, phone, auth } = res.data;
+                commit('SET_NAME', name);
+                commit('SET_PHONE', phone);
+                commit('SET_AUTH', auth);
+                resolve(res)
             }).catch(error => {
                 reject(error);
             })
