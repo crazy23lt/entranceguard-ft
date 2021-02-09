@@ -21,8 +21,8 @@
           ></image>
         </view>
       </view>
-      <view class="menu">
-        <uiMenu />
+      <view class="menu px140 mt50">
+        <uiMenu @exit="_exitEvent" @service="_serviveEvent" />
       </view>
     </view>
   </view>
@@ -33,7 +33,6 @@ import { mapActions, mapGetters } from "vuex";
 import uiMenu from "./components/ui-menu";
 export default {
   created: function() {
-    this.getInfo();
     this.permissionRouter();
   },
   components: { uiMenu },
@@ -59,10 +58,18 @@ export default {
   },
   methods: {
     ...mapActions({
-      getInfo: "user/getInfo",
       permissionRouter: "permission/generateRoutes",
+      logout: "user/logout",
     }),
     imageError: function() {},
+    _exitEvent: function() {
+      this.logout()
+        .then((res) => {
+          this.$Router.replace({ name: "login" });
+        })
+        .catch((error) => console.info(error));
+    },
+    _serviveEvent: function() {},
   },
   filters: {
     pipePhone: function(phone) {
@@ -124,6 +131,8 @@ export default {
       }
     }
     .menu {
+      width: 100%;
+      box-sizing: border-box;
     }
   }
 }

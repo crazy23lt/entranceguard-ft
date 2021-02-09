@@ -8,21 +8,68 @@
       <form style="width:100%;" @submit="formSubmit">
         <view class="form-main">
           <view class="form-group">
+            <image
+              class="icon"
+              src="../../../static/assets/icons/phone.png"
+            ></image>
             <input
               maxlength="11"
-              class="form-control"
+              class="form-control ml20"
               type="number"
               placeholder="请输入手机号码"
               v-model="formData.phoneNumber"
               @blur="_handlerInputPhone"
             />
           </view>
-          <view class="form-group"></view>
-          <view class="form-action"></view>
+          <view class="form-group">
+            <image
+              class="icon"
+              src="../../../static/assets/icons/lock.png"
+            ></image>
+            <input
+              class="form-control ml20"
+              placeholder="请输入密码"
+              v-model="formData.password"
+              @blur="_handlerInputPhone"
+              :type="inputType"
+            />
+            <image class="icon" @click="changeEye" :src="eyesrc"></image>
+          </view>
+          <view class="form-action">
+            <button
+              form-type="submit"
+              class="form-button active"
+              type="default"
+            >
+              登录
+            </button>
+            <button form-type="submit" class="form-button mt30" type="default">
+              注册
+            </button>
+          </view>
         </view>
       </form>
     </view>
-    <view class="footer"></view>
+    <view class="footer mt100">
+      <view class="line">
+        <view class="before"></view>
+        <text class="px10">快捷登录</text>
+        <view class="after"></view>
+      </view>
+      <view class="icons">
+        <image
+          style="transform:scale(1.1);"
+          class="login-icon mr50 mt50"
+          src="../../../static/assets/icons/QQ.png"
+          @click="loginQQ"
+        ></image>
+        <image
+          class="login-icon ml50 mt50"
+          src="../../../static/assets/icons/weixin-copy.png"
+          @click="loginWX"
+        ></image>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -33,14 +80,46 @@ export default {
   data() {
     return {
       loginLogo: "../../../static/assets/ct-logo.png",
+      formData: {
+        phoneNumber: "13636065890",
+        password: "123456",
+      },
+      eyeicon: {
+        openSrc: "../../../static/assets/icons/eye.png",
+        closeSrc: "../../../static/assets/icons/eyes_close.png",
+        flag: false,
+      },
     };
+  },
+  computed: {
+    inputType: function() {
+      return this.eyeicon.flag ? "text" : "password";
+    },
+    eyesrc: function() {
+      return this.eyeicon.flag ? this.eyeicon.openSrc : this.eyeicon.closeSrc;
+    },
   },
   onReady() {
     console.info(this.barHeight);
   },
   methods: {
     /*----- 提交表单 -----*/
-    formSubmit: function() {},
+    formSubmit: function() {
+      this.$store
+        .dispatch("user/login", this.formData)
+        .then((res) => {
+          this.$Router.replace({ name: "home" });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    _handlerInputPhone: function() {},
+    loginQQ: function() {},
+    loginWX: function() {},
+    changeEye: function() {
+      this.eyeicon.flag = !this.eyeicon.flag;
+    },
   },
 };
 </script>
@@ -95,14 +174,18 @@ export default {
         .form-getcode {
           color: #0089f2;
         }
+        .icon {
+          width: 40rpx;
+          height: 40rpx;
+        }
       }
       .form-action {
         margin-top: 20rpx;
         .form-button {
           font-size: 32rpx;
           color: #b1b1b1;
-          background-color: #e8ecf1;
           border-radius: 40rpx;
+          border: none;
         }
         .active {
           background: linear-gradient(70deg, #87cefa, #1e90ff);
@@ -112,6 +195,23 @@ export default {
     }
   }
   .footer {
+    .line {
+      @include flex(center, center, row);
+      .before,
+      .after {
+        width: 30%;
+        height: 1rpx;
+        border-top: 1px solid #d8d8d8;
+      }
+    }
+    .icons {
+      box-sizing: border-box;
+      @include flex(center, center, row);
+      .login-icon {
+        width: 80rpx;
+        height: 80rpx;
+      }
+    }
   }
 }
 </style>

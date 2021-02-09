@@ -1,35 +1,31 @@
 const BaseRouter = [
   {
     //注意：path必须跟pages.json中的地址对应，最前面别忘了加'/'哦
-    path: "/",
+    path: "/pages/home/index",
     aliasPath: "/", //对于h5端你必须在首页加上aliasPath并设置为/
     name: "home",
-    component: () => import("@/pages/home/index.vue"),
     meta: {
       title: "主页",
     },
   },
   {
-    path: "/control",
+    path: "/pages/control/index",
     name: "control",
-    component: () => import("@/pages/control/index.vue"),
     meta: {
       title: "个人中心",
     },
   },
   // #ifdef APP-PLUS
   {
-    path: "/login",
+    path: "/pages/login/app/index",
     name: "login",
-    component: () => import("@/pages/login/app/index.vue"),
     meta: {
       title: "登录",
     },
   },
   {
-    path: "/registered",
+    path: "/pages/registered/index",
     name: "registered",
-    component: () => import("@/pages/registered/index.vue"),
     meta: {
       title: "注册",
     },
@@ -37,9 +33,8 @@ const BaseRouter = [
   // #endif
   // #ifdef H5
   {
-    path: "/login",
+    path: "/pages/login/wx/index",
     name: "login",
-    component: () => import("@/pages/login/wx/index.vue"),
     meta: {
       title: "登录",
     },

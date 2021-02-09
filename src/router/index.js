@@ -2,12 +2,9 @@ import Vue from 'vue'
 import Router from 'uni-simple-router';
 import modules from './modules'
 import { getToken } from "@/utils/auth"
-const whiteList = ["/login", "/"]; // no redirect whitelist
+const whiteList = ["/pages/home/index", "/pages/registered/index", "/pages/login/app/index", "/pages/login/wx/index"]; // no redirect whitelist
 Vue.use(Router)
 const router = new Router({
-    h5: {
-        vueRouterDev: true,  //完全使用vue-router开发 默认 false  
-    },
     routes: [...modules]//路由表
 });
 //全局路由前置守卫

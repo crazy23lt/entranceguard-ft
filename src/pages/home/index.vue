@@ -30,7 +30,7 @@
             v-if="doorKeys.length"
             scroll-y="true"
             class="scroll"
-            :scroll-top="18"
+            :scroll-top="scrollTop"
             :scroll-anchoring="true"
             :show-scrollbar="false"
           >
@@ -91,10 +91,13 @@ export default {
     barHeight: function() {
       return this.safeArea && this.safeArea.top ? this.safeArea.top : 0;
     },
+    scrollTop: function() {
+      return this.menuFlag ? 0 : 18;
+    },
   },
-  created() {
+  onLoad() {
     if (this.token) {
-      this.getDoorKeys();
+      this._appinit();
     }
   },
   methods: {
@@ -114,8 +117,9 @@ export default {
           break;
       }
     },
-    getDoorKeys: async function() {
+    _appinit: async function() {
       this.$store.dispatch("app/getDoorKeys");
+      this.$store.dispatch("user/getInfo");
     },
   },
   filters: {
@@ -167,6 +171,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
 }
 .activeset {
   justify-content: flex-end;

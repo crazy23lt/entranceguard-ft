@@ -1,8 +1,7 @@
 export const constantRoutes = [
     {
-        path: "/apply",
+        path: "/pages/apply/index",
         name: "apply",
-        component: () => import("@/pages/apply/index.vue"),
         meta: {
             title: '申请钥匙',
             icon: 'key',
@@ -10,9 +9,8 @@ export const constantRoutes = [
         },
     },
     {
-        path: "/helper",
+        path: "/pages/helper/index",
         name: "helper",
-        component: () => import("@/pages/helper/index.vue"),
         meta: {
             title: '紧急求助',
             icon: 'urgent',
@@ -20,9 +18,8 @@ export const constantRoutes = [
         },
     },
     {
-        path: "/setting",
+        path: "/pages/setting/index",
         name: "setting",
-        component: () => import("@/pages/setting/index.vue"),
         meta: {
             title: '设置',
             icon: 'setting',
@@ -32,21 +29,19 @@ export const constantRoutes = [
 ];
 export const asyncRoutes = [
     {
-        path: "/house",
+        path: "/pages/house/index",
         name: "house",
-        component: () => import("@/pages/house/index.vue"),
         meta: {
             title: '我的房屋',
             icon: 'urgent',
-            necessary: ["doorkeys"],
+            necessary: ["doorKeys"],
             order: 3
         },
     },
 
     {
-        path: "/population",
+        path: "/pages/population/index",
         name: "population",
-        component: () => import("@/pages/population/index.vue"),
         meta: {
             title: '流动人口信息',
             icon: 'population',

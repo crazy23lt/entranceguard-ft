@@ -25,7 +25,6 @@ const actions = {
     },
     getSafeArea({ commit }) {
         const { safeArea } = uni.getSystemInfoSync();
-        console.info(uni.getSystemInfoSync());
         commit('SET_SAFEAREA', safeArea);
     }
 };
