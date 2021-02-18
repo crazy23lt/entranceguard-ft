@@ -9,8 +9,8 @@
       <view class="operation-set" :class="{ activeset: menuFlag }">
         <view class="icon-item" v-for="(item, index) in iconItem" :key="index">
           <image
-            @click="tapOptionsHandler(item.name)"
             class="icon"
+            @click="tapOptionsHandler(item.name)"
             :src="item.path"
           ></image>
         </view>
@@ -78,8 +78,8 @@ export default {
       keyOfflinePic: "../../static/assets/icons/btn-keyoffline.png",
       iconItem: [
         { path: "../../static/assets/icons/btn-my.png", name: "my" },
+        { path: "../../static/assets/icons/btn-tip2x.png", name: "urgent" },
         { path: "../../static/assets/icons/btn-service.png", name: "service" },
-        { path: "../../static/assets/icons/btn-tip2x.png", name: "tip" },
       ],
       menuIcon: "../../static/assets/icons/btn-showmore.png",
       scanCodeIcon: "../../static/assets/icons/icon-scan.png",
@@ -105,14 +105,20 @@ export default {
       this.menuFlag = !this.menuFlag;
     },
     tapOptionsHandler: function(name) {
+      console.info(name);
       switch (name) {
-        case "tip":
-          this.$Router.push({ name: "control" });
+        case "urgent":
+          // 社区电话服务
+          this.$Router.push({ name: "urgent" });
           break;
         case "service":
-          this.$Router.push({ name: "control" });
+          // 平台人工服务
+          uni.makePhoneCall({
+            phoneNumber: "114",
+          });
           break;
         case "my":
+          // 个人中心
           this.$Router.push({ name: "control" });
           break;
       }
@@ -136,7 +142,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* 最外层 */
 .content {
   display: flex;
@@ -155,7 +161,7 @@ export default {
 .main {
   position: absolute;
   bottom: 0;
-  height: 800rpx;
+  height: 900rpx;
   width: 100%;
   transition: height 0.3s ease-out;
   box-sizing: border-box;
@@ -172,6 +178,8 @@ export default {
   align-items: center;
   flex-direction: column;
   overflow: hidden;
+  margin-bottom: 100rpx;
+  z-index: 9999;
 }
 .activeset {
   justify-content: flex-end;
@@ -182,7 +190,7 @@ export default {
 }
 .icon-item {
   padding-right: 30rpx;
-  margin: 6rpx 0;
+  margin: 12rpx 0;
   height: 65rpx;
   width: inherit;
   text-align: right;

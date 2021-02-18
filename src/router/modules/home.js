@@ -15,6 +15,13 @@ const BaseRouter = [
       title: "个人中心",
     },
   },
+  {
+    path: "/pages/urgent/index",
+    name: "urgent",
+    meta: {
+      title: "紧急服务",
+    },
+  },
   // #ifdef APP-PLUS
   {
     path: "/pages/login/app/index",

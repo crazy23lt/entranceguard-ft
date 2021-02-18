@@ -21,6 +21,16 @@
 		{
 			"path": "pages/setting/index"
 		},
+		{
+			"path": "pages/urgent/index",
+			"style": {
+				"navigationBarTextStyle": "black",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
 		// #ifdef APP-PLUS
 		{
 			"path": "pages/login/app/index",
